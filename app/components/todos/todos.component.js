@@ -10,7 +10,7 @@ const TodosComponent = {
     		<h1 class="text-center">{{$ctrl.title}}</h1>
             <todo-form on-new-element="$ctrl.addNewElement($event)"></todo-form>
             <hr/>
-    		<todo-list todos="$ctrl.todoList"></todo-list>
+    		<todo-list todos="$ctrl.todoList" on-done="$ctrl.markDone($event)" on-undone="$ctrl.markUndone($event)"></todo-list>
     	</div>
     `,
     controller: class TodosController {
@@ -25,7 +25,7 @@ const TodosComponent = {
         }
 
         $onInit() {
-            this._console.log('TODO List initialized');
+            this._console.log('Todos initialized');
         }
 
         addNewElement(todoLabel) {
@@ -36,6 +36,16 @@ const TodosComponent = {
                     this.todoList.push(t);
                 })
                 .catch(alert);
+        }
+
+        markDone(todo) {
+            todo.done = true;
+            this._service.update(todo);
+        }
+
+        markUndone(todo) {
+            todo.done = false;
+            this._service.update(todo);
         }
     }
 

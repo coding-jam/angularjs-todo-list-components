@@ -24,12 +24,13 @@ export const TodoFormComponent = {
         }
 
         $onInit() {
-            this._console.log('Task form initialized');
+            this._console.log('TodoForm initialized');
         }
 
         addTodo() {
             this._console.log('New task: ' + this.element);
             this.onNewElement({$event: this.element});
+            this.element = null;
         }
     }
 

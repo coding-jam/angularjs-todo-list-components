@@ -11,10 +11,10 @@ export const TodoListComponent = {
                     <td ng-class="{'task-done': todo.done}">{{todo.id}}</td>
                     <td ng-class="{'task-done': todo.done}">{{todo.text}}</td>
                     <td>
-                        <button class="pull-right btn btn-default" ng-click="$ctrl.markDone(todo)" ng-show="!todo.done">
+                        <button class="pull-right btn btn-default" ng-click="$ctrl.onDone({$event: todo})" ng-show="!todo.done">
                             Done
                         </button>
-                        <button class="pull-right btn btn-default" ng-click="$ctrl.markUndone(todo)" ng-show="todo.done">
+                        <button class="pull-right btn btn-default" ng-click="$ctrl.onUndone({$event: todo})" ng-show="todo.done">
                             Redo
                         </button>
                     </td>
@@ -22,28 +22,28 @@ export const TodoListComponent = {
             </table>
         </div>`,
     bindings: {
-        todos: '<'
+        todos: '<',
+        onDone: '&',
+        onUndone: '&'
     },
     controller: class TodoListController {
 
         /* @ngInject */
-        constructor($log, TodoListService) {
+        constructor($log, $element) {
             this._console = $log;
-            this._service = TodoListService;
+            this._console.log($element);
         }
 
         $onInit() {
-            this._console.log('Initial tasks size: ' + this.todos);
+            this._console.log('TodoList initialized');
         }
 
-        markDone(todo) {
-            todo.done = true;
-            this._service.update(todo);
+        $onChanges(changedObj) {
+            this._console.log('Changes detected in TodoList from parent component: ' + JSON.stringify(changedObj));
         }
 
-        markUndone(todo) {
-            todo.done = false;
-            this._service.update(todo);
+        $postLink() {
+            this._console.debug(arguments);
         }
     }
 

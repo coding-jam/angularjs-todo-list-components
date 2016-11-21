@@ -10,13 +10,6 @@ function storeAll(todos) {
 
 export default class TodoListService {
 
-    /**
-     * @return {string}
-     */
-    static get NAME() {
-        return 'TodoListService';
-    }
-
     /* @ngInject */
     constructor($log, $q) {
         this._console = $log;
